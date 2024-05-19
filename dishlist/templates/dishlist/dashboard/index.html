@@ -1,0 +1,129 @@
+{% extends 'base_index.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block navbar %}
+<!-- Шапка сайта (навбар) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Меню</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Контакты</a>
+        </li>
+
+          {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:profile' %}"> {{user.username}}</a>
+            </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block menu %}
+<!-- Горизонтальное меню -->
+<div class="container-fluid bg-light py-2 container-fluid-menu">
+    <div class="row">
+      <div class="col">
+
+          <a href="{% url 'add_category' %}" class="btn btn-info">Добавить</a>
+
+          <a href="{% url 'refactor_category' place_id %}" class="btn btn-warning">Редактировать</a>
+          {% for item in object_list %}
+          {% ifchanged item.category %}
+        <button type="button" class="btn btn-outline-primary"
+                href="{{ item.get_absolute_url }}">{{ item.category }}</button>
+          {% endifchanged %}
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block place_bar %}
+<!-- Изображение кафе-->
+<div class="card text-bg-dark">
+  <img src="https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-71.jpg" class="card-img" alt="...">
+  <div class="card-img-overlay">
+<!--    <h5 class="card-title">Кафе Клен</h5>-->
+<!--    <p class="card-text">Европейская кухня в центре</p>-->
+<!--    <p class="card-text"><small>Last updated 3 mins ago</small></p>-->
+  </div>
+</div>
+{% endblock %}
+
+{% block ii_bar1 %}
+{%if label_title %}
+<p></p>
+<button type="button" class="btn btn-outline-success">{{label_title}}</button>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Основной блок кода-->
+<div class="row row-cols-2 row-cols-md-2 g-2">
+  {% for item in object_list %}
+  <div class="col">
+      {% ifchanged item.category %}
+      </div>
+     </div>
+<div class="row row-cols-1 row-cols-md-1 g-1">
+     <div class="col">
+      <h2>{{item.category}}</h2>
+     </div>
+     </div>
+<div class="row row-cols-2 row-cols-md-2 g-2">
+     <div class="col">
+      {% endifchanged %}
+    <div class="card h-100">
+        <a href="{% url 'view_dishes' item.pk %}">
+        {% if item.photo %}
+        <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+        {% else %}
+        <img src="https://scanformenu.ru/compiled/uploads/item_images/50e9ee8f2f4a00dcd2a1dba1309333f0.jpg" class="card-img-top" alt="...">
+        {% endif %}
+        </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="card-text">{{ item.price }} - </p>
+        <a href="{% url 'update_dishes' item.place_id item.pk %}" class="btn btn-warning">Редактировать</a>
+        <a href="{% url 'delete_dish' item.place_id item.pk %}" class="btn btn-danger">Удалить</a>
+      </div>
+    </div>
+  </div>
+     {% endfor %}
+</div>
+{% endblock %}
+
+{% block basket %}
+<!-- Плавающая кнопка корзины -->
+  <a href="{% url 'add_dishes_place' %}"
+     class="btn btn-primary btn-lg fixed-bottom fixed-bottom-btn">Добавить блюдо</a>
+{% endblock %}
+

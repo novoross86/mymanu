@@ -1,0 +1,43 @@
+{% extends 'base_index.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block navbar %}
+<!-- Шапка сайта (навбар) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Меню</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Контакты</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+{%block h1 %}<h1>{{ title }}</h1>{% endblock %}
+
+{% block content %}
+<h4>Как пролистнуть страницу</h4>
+<h1>Вы уверены что хотите удалить категорию - "{{ object }}" ? </h1>
+
+    <form action="" method="post">{% csrf_token %}
+      <input type="submit" class="btn btn-danger" value="Удалить" />
+
+    </form>
+
+{% endblock %}

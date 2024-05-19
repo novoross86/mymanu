@@ -1,0 +1,173 @@
+{% extends 'base_user.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block navbar %}
+<!-- Шапка сайта (навбар) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Меню</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Контакты</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+
+{% block menu %}
+
+<!-- Горизонтальное меню -->
+<div class="container-fluid bg-light py-2 container-fluid-menu">
+    <div class="row">
+      <div class="col">
+          {% for item in object_list %}
+          {% ifchanged item.category %}
+          <button type="button" class="btn btn-outline-primary"
+                href="{{ item.get_absolute_url }}">{{ item.category }}</button>
+          {% endifchanged %}
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
+
+
+{% block place_bar %}
+<!-- Изображение кафе-->
+<div class="card text-bg-dark">
+  <img src="https://roomester.ru/wp-content/uploads/2018/04/dizajn-kafe-71.jpg" class="card-img" alt="...">
+  <div class="card-img-overlay">
+    <!--<h5 class="card-title">Кафе Клен</h5>
+    <p class="card-text">Европейская кухня в центре</p>
+    <p class="card-text"><small>Last updated 3 mins ago</small></p>
+    -->
+  </div>
+</div>
+{% endblock %}
+
+{% block ii_bar1 %}
+{%if active_var %}
+<p></p>
+<button type="button" class="btn btn-outline-success">{{active_var}}</button>
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+<!-- Основной блок кода-->
+
+<div class="row row-cols-2 row-cols-md-2 g-2">
+  {% for item in object_list %}
+     <div class="col">
+      {% ifchanged item.category %}
+      </div>
+     </div>
+<div class="row row-cols-1 row-cols-md-1 g-1">
+     <div class="col">
+      <h2>{{item.category}}</h2>
+     </div>
+     </div>
+<div class="row row-cols-2 row-cols-md-2 g-2">
+     <div class="col">
+      {% endifchanged %}
+    <div class="card h-100">
+        <a href="{% url 'view_dishes_user' item.pk %}">
+        {% if item.photo %}
+        <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+        {% else %}
+        <img src="https://scanformenu.ru/compiled/uploads/item_images/50e9ee8f2f4a00dcd2a1dba1309333f0.jpg" class="card-img-top" alt="...">
+        {% endif %}
+        </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="card-text">{{ item.price }} - </p>
+        <a href="{% url 'add_to_basket' item.pk %}" class="btn btn-outline-primary add-to-basket" data-dish-id="{{ item.pk }}">
+            + Добавить</a>
+
+      </div>
+    </div>
+  </div>
+     {% endfor %}
+</div>
+
+
+<!--<div class="row row-cols-2 row-cols-md-2 g-2">-->
+<!--  {% for item in object_list %}-->
+<!--  <div class="col">-->
+<!--    {% ifchanged item.category %}-->
+<!--    &lt;!&ndash; Закрываем предыдущий div.col только если категория изменилась &ndash;&gt;-->
+<!--    </div>-->
+<!--    &lt;!&ndash; Закрываем предыдущий div.row только если категория изменилась &ndash;&gt;-->
+<!--    </div>-->
+<!--    &lt;!&ndash; Добавляем id категории к заголовку для якорной ссылки &ndash;&gt;-->
+<!--    <div class="row row-cols-1 row-cols-md-1 g-1" id="{{ item.category_id }}">-->
+<!--      <div class="col">-->
+<!--        <h2>{{ item.category }}</h2>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; Открываем новый div.row для новой категории &ndash;&gt;-->
+<!--    <div class="row row-cols-2 row-cols-md-2 g-2">-->
+<!--    {% endifchanged %}-->
+<!--    <div class="col">-->
+<!--      <div class="card h-100">-->
+<!--        &lt;!&ndash; Остальной код карточки &ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  {% endfor %}-->
+<!--  &lt;!&ndash; Закрываем последний div.row и div.col &ndash;&gt;-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<!-- Добавление обработчика кнопок добавить в корзину -->
+<script>
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('add-to-basket')) {
+        e.preventDefault();
+        const button = e.target; // Сохраняем ссылку на кнопку
+        const dishId = button.dataset.dishId;
+        fetch(`/add_to_basket/${dishId}/`)
+            .then(response => response.json())
+            .then(data => {
+                button.textContent = 'Добавлено: ' + data.quantity; // Обновляем текст кнопки
+                // Здесь вы можете обновить количество на странице
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                button.textContent = 'Ошибка при добавлении'; // Текст кнопки в случае ошибки
+            });
+    }
+});
+
+
+</script>
+
+
+{% endblock %}
+
+{% block basket %}
+<!-- Плавающая кнопка корзины -->
+  <a href="{% url 'view_basket' %}" class="btn btn-primary btn-lg fixed-bottom fixed-bottom-btn">Корзина1</a>
+{% endblock %}
+

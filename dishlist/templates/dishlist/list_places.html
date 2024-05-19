@@ -1,0 +1,9 @@
+<nav class="navbar bg-body-tertiary">
+  <form class="container-fluid justify-content-start">
+    {% for item in place %}
+    <button class="btn btn-sm btn-outline-secondary" type="button">
+      <a class="nav-link active" aria-current="page" href="{{ item.get_absolute_url }}">{{ item.title_place }}</a>
+    </button>
+    {% endfor %}
+  </form>
+</nav>

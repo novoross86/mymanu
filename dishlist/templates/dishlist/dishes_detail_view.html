@@ -1,0 +1,109 @@
+{% extends 'base_index.html' %}
+
+{%block title%}{{ object.title }}{%endblock%}
+
+{%block h1 %}<h1>{{ object.title }}</h1>{% endblock %}
+
+{% block navbar %}
+<!-- Шапка сайта (навбар) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="{% url 'place' object.place_id %}">{{object.place}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Меню</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Контакты</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="card mb-3">
+        {% if object.photo %}
+        <img src="{{ object.photo.url }}" class="card-img-top" alt="...">
+        {% else %}
+        <img src="https://scanformenu.ru/compiled/uploads/item_images/50e9ee8f2f4a00dcd2a1dba1309333f0.jpg" class="card-img-top" alt="...">
+        {% endif %}
+
+  <div class="card-body">
+    <h5 class="card-title">{{ object.title }}</h5>
+    <p class="card-text">{{ object.content }}</p>
+    <p class="card-text"><small class="text-body-secondary">{{ object.price }} - </small></p>
+    <a href="{% url 'add_to_basket' object.pk %}" class="btn btn-primary add-to-basket"
+    data-dish-id="{{ object.pk }}">Добавить</a>
+  </div>
+</div>
+
+
+<!-- Добавление обработчика кнопок добавить в корзину -->
+<script>
+
+<!--document.addEventListener('click', function(e) {-->
+<!--    if (e.target.classList.contains('add-to-basket')) {-->
+<!--        e.preventDefault();-->
+<!--        const button = e.target; // Сохраняем ссылку на кнопку-->
+<!--        const dishId = button.dataset.dishId;-->
+<!--        fetch(`/add_to_basket/${dishId}/`)-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                button.textContent = 'Добавлено: ' + data.quantity; // Обновляем текст кнопки-->
+<!--                // Здесь вы можете обновить количество на странице-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Ошибка:', error);-->
+<!--                button.textContent = 'Ошибка при добавлении'; // Текст кнопки в случае ошибки-->
+<!--            });-->
+<!--    }-->
+<!--});-->
+
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('add-to-basket')) {
+        e.preventDefault();
+        const button = e.target; // Сохраняем ссылку на кнопку
+        const dishId = button.dataset.dishId;
+        fetch(`/add_to_basket/${dishId}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Сетевая ошибка: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                button.textContent = 'Добавлено: ' + data.quantity; // Обновляем текст кнопки
+                // Здесь вы можете обновить количество на странице
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                button.textContent = ' ' + error.message; // Текст кнопки в случае ошибки
+            });
+    }
+});
+
+
+</script>
+
+
+{% endblock %}
+
+{% block basket %}
+<!-- Плавающая кнопка корзины -->
+  <a href="{% url 'view_basket' %}" class="btn btn-primary btn-lg fixed-bottom fixed-bottom-btn">Корзина</a>
+{% endblock %}
+
+

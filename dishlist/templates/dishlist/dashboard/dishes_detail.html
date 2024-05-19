@@ -1,0 +1,67 @@
+{% extends 'base_index.html' %}
+
+{%block title%}{{ object.title }}{%endblock%}
+
+{%block h1 %}<h1>{{ object.title }}</h1>{% endblock %}
+
+{% block navbar %}
+<!-- Шапка сайта (навбар) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="{% url 'dashboard_menu' object.place_id %}">{{ object.place }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Меню</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Контакты</a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item"> {{user.username}}
+          <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="card mb-3">
+        {% if object.photo %}
+        <img src="{{ object.photo.url }}" class="card-img-top" alt="...">
+        {% else %}
+        <img src="https://scanformenu.ru/compiled/uploads/item_images/50e9ee8f2f4a00dcd2a1dba1309333f0.jpg" class="card-img-top" alt="...">
+        {% endif %}
+
+  <div class="card-body">
+    <h5 class="card-title">{{ object.title }}</h5>
+    <p class="card-text">{{ object.content }}</p>
+    <p class="card-text"><small class="text-body-secondary">{{ object.price }} - </small></p>
+      <a href="{% url 'update_dishes' object.place_id object.pk %}" class="btn btn-warning">Редактировать</a>
+    <a href="{% url 'delete_dish' object.place_id object.pk %}" class="btn btn-danger">Удалить</a>
+
+  </div>
+</div>
+
+
+{% endblock %}

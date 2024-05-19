@@ -1,0 +1,31 @@
+{% extends 'base_index.html' %}
+
+{%block title%}{{title}}{%endblock%}
+
+{%block h1 %}<h1>{{ title }}</h1>{% endblock %}
+
+
+{% block content %}
+<h1>Добавление новости</h1>
+
+<form action="{% url 'add_dishes_place' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% comment %}
+    {{ form.as_p }}
+    {%endcomment%}
+
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        <div class="invalid-feedback">
+            {{ field.errors }}
+        </div>
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary btn-block">Добавить</button>
+</form>
+
+{% endblock %}

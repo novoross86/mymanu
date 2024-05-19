@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{%block title%}{{title}}{%endblock%}
+
+{%block h1 %}<h1>{{ title }}</h1>{% endblock %}
+
+
+{% block content %}
+<div class="conteiner">
+
+      <div class="row">
+          {% for item in object_list %}
+<div class="card" style="width: 18rem;">
+  {% if item.photo %}
+    <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+  {% else %}
+    <img src="https://attuale.ru/wp-content/uploads/2018/02/021.jpg" class="card-img-top" alt="...">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{ item.title }}</h5>
+      <p class="card-text">Категория: <a href="{{ item.category.get_absolute_url }}">{{ item.category }}</a></p>
+      <p class="card-text">{{ item.content }}</p>
+      <p class="card-text">{{ item.price }} - </p>
+    <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Подробнее</a>
+  </div>
+</div>
+          {% endfor %}
+      </div>
+
+  </div>
+{% endblock %}

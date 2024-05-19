@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{%block title%}{{object.title}}{%endblock%}
+
+{%block h1 %}<h1>{{ object.title }}</h1>{% endblock %}
+
+
+{% block content %}
+<div class="conteiner">
+
+      <div class="row">
+
+<div class="card" style="width: 18rem;">
+  <img src="{{ dishes_item.photo.url }}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ object.title }}</h5>
+      <p class="card-text">Категория: <a href="{{ object_list.category.get_absolute_url }}">
+        {{ object_list.category }}</a></p>
+      <p class="card-text">{{ object.content }}</p>
+      <p class="card-text">{{ object.price }} - </p>
+    <a href="#" class="btn btn-primary">Добавить</a>
+  </div>
+</div>
+
+      </div>
+
+  </div>
+{% endblock %}
