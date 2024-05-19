@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {% block title %} Меню Кафе {% endblock %}
+  </title>
+  <!-- Подключаем Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .navbar {
+      transition: top 0.3s;
+      z-index: 1000; /* Устанавливаем высокий z-index для плавающей шапки */
+    }
+    .fixed-top {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+    .container-fluid-menu {
+      position: fixed;
+      top: 56px;
+      width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      z-index: 999; /* Устанавливаем высокий z-index для горизонтального меню */
+    }
+    .container-fluid-menu .btn {
+      min-width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+{% block navbar %} Шапка сайта {% endblock %}
+
+{% block menu %} Горизонтальное меню {% endblock %}
+
+{% block place_bar %} Описание кафе {% endblock %}
+
+{% block ii_bar1 %}{% endblock %}
+
+{% block content %} Контент страницы {% endblock %}
+
+{% block basket %} {% endblock %}
+
+  <!-- Подключаем Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
