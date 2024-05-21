@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dishes, Place, Category
+from .models import Dishes, Place, Category, PlaceInfo
 
 
 #добавление блюда
@@ -35,3 +35,8 @@ class DishesForm(forms.ModelForm):
         model = Dishes
         fields = ['title', 'content', 'price', 'is_public', 'place', 'category', 'photo']
 
+
+class PlaceInfoForm(forms.ModelForm):
+    class Meta:
+        model = PlaceInfo
+        fields = '__all__'  # Все поля модели PlaceInfo

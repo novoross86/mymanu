@@ -33,7 +33,51 @@
 </head>
 <body>
 
-{% block navbar %} Шапка сайта {% endblock %}
+{% block navbar %}
+
+<!-- Шапка сайта (навбар) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'dashboard_menu' place_id %}"> Главная <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard_menu' place_id %}">Меню</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'update_place_info' place_id %}">Профиль</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Контакты</a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:profile' %}"> {{user.username}}</a>
+            </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </nav>
+
+{% endblock %}
 
 {% block menu %} Горизонтальное меню {% endblock %}
 

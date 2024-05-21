@@ -1,15 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
-
-#Плашка блюда
-# class DisheLable(models.Model):
-#     lable = models.ForeignKey('Lable', on_delete=models.PROTECT, blank=True, verbose_name="Текст плашки")
-#     active = models.BooleanField(default=False)
-#
-# class Lable(models.Model):
-#     title = models.CharField(max_length=50, db_index=True, verbose_name='Текст плашки')
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Dishes(models.Model):
@@ -55,24 +48,37 @@ class Category(models.Model):
 
 #плашка для места
 
-class PlaceLabel(models.Model):
-    title = models.CharField(max_length=50, db_index=True, blank=True, verbose_name='Текст плашки')
-
-    def __str__(self):
-        return self.title
-
-class Place(models.Model):
-    title_place = models.CharField(max_length=150, db_index=True, verbose_name='Заведение')
-    author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='place_author', null=True,
-                               default=None)
-    label = models.ForeignKey('PlaceLabel', on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Плашка")
-
+# class PlaceLabel(models.Model):
+#     title = models.CharField(max_length=50, db_index=True, blank=True, verbose_name='Текст плашки')
+#
+#     def __str__(self):
+#         return self.title
 
 # class Place(models.Model):
 #     title_place = models.CharField(max_length=150, db_index=True, verbose_name='Заведение')
 #     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='place_author', null=True,
 #                                default=None)
-#     lable = models.ManyToManyField(PlaceLabel, blank=True)
+#     # label = models.ForeignKey('PlaceLabel', on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Плашка")
+#     place_info = models.OneToOneField('PlaceInfo', on_delete=models.SET_NULL, null=True, blank=True)
+#
+#     def get_absolute_url(self):
+#         return reverse('dashboard_menu', kwargs={"place_id": self.pk})
+#
+#     def __str__(self):
+#         return self.title_place
+#
+#     class Mete:
+#         verbose_name = 'Заведение'
+#         verbose_name_plural = 'Заведения'
+#         ordering = ['title_place']
+
+
+class Place(models.Model):
+    title_place = models.CharField(max_length=150, db_index=True, verbose_name='Заведение')
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='place_author', null=True,
+                               default=None)
+    # label = models.ForeignKey('PlaceLabel', on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Плашка")
+    place_info = models.OneToOneField('PlaceInfo', on_delete=models.SET_NULL, null=True, blank=True, related_name='place_info_reverse')
 
     def get_absolute_url(self):
         return reverse('dashboard_menu', kwargs={"place_id": self.pk})
@@ -80,14 +86,34 @@ class Place(models.Model):
     def __str__(self):
         return self.title_place
 
-    class Mete:
+    class Meta:
         verbose_name = 'Заведение'
         verbose_name_plural = 'Заведения'
         ordering = ['title_place']
 
-#раздел маркет моделей
+# модель информации о заведении
+class PlaceInfo(models.Model):
+    place = models.ForeignKey(Place, related_name='info_set', on_delete=models.CASCADE, verbose_name='Заведение')
+    organization_name = models.CharField(max_length=255, null=True, verbose_name='Название организации')
+    inn = models.PositiveIntegerField(verbose_name='ИНН',null=True, unique=True)
+    city = models.CharField(max_length=100, null=True, verbose_name='Город')
+    address = models.CharField(max_length=255, null=True, verbose_name='Адрес')
+    number_of_tables = models.PositiveIntegerField(null=True, verbose_name='Количество столиков')
+    working_hours = models.CharField(max_length=255, null=True, verbose_name='Часы работы')
+    average_check = models.PositiveIntegerField(null=True, verbose_name='Средний чек')
+
+    def __str__(self):
+        return f"{self.organization_name} ({self.place.title_place})"
+
+    class Meta:
+        verbose_name = 'Информация о заведении'
+        verbose_name_plural = 'Информация о заведениях'
 
 
+    @receiver(post_save, sender=Place)
+    def create_place_info(sender, instance, created, **kwargs):
+        if created:
+            PlaceInfo.objects.create(place=instance)
 
 
 

@@ -1,0 +1,22 @@
+{% extends 'base_index.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{%block h1 %}<h1>{{ title }}Заполните данные формы</h1>{% endblock %}
+
+{% block menu %}
+
+
+
+{% endblock %}
+
+{% block content %}
+<h4>Заполните данные формы</h4>
+<h1>Профиль партнера</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+
+{% endblock %}

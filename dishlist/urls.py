@@ -29,5 +29,7 @@ urlpatterns = [
     path('update_dishes/<int:place_id>/<int:pk>', views.UpdateDishes.as_view(), name='update_dishes'),
     #удаление блюда
     path('delete_dish/<int:place_id>/<int:pk>/', views.DeleteDish.as_view(), name='delete_dish'),
+    #редактирование данных организации
+    path('place_info/<int:place_id>/', views.PlaceInfoUpdateView.as_view(), name='update_place_info'),
 
 ]

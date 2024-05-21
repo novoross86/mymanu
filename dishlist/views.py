@@ -1,8 +1,8 @@
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .forms import DishesForm, PlaceForm, DishesPlaceForm, CategoryForm
-from .models import Dishes, Category, Place, PlaceLabel
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from .forms import DishesForm, PlaceForm, DishesPlaceForm, CategoryForm, PlaceInfo
+from .models import Dishes, Category, Place
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -68,11 +68,12 @@ class DashboardMenu(LoginRequiredMixin, ListView):
         place = Place.objects.get(pk=self.kwargs['place_id'])
         context['title'] = place.title_place
         context['place_id'] = self.kwargs['place_id']
-        # Добавление названия плашки в контекст, если оно есть
-        if place.label:
-            context['label_title'] = place.label.title
-        else:
-            context['label_title'] = None
+
+        # # Добавление названия плашки в контекст, если оно есть
+        # if place.label:
+        #     context['label_title'] = place.label.title
+        # else:
+        #     context['label_title'] = None
 
         return context
 
@@ -234,6 +235,15 @@ class CreateDishPlace(LoginRequiredMixin, CreateView): #LoginRequiredMixin, на
         kwargs['user'] = self.request.user  # Добавляем текущего пользователя в параметры формы
         return kwargs
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        place_id = Place.objects.values('pk').get(author=self.request.user)
+        place_id = place_id['pk']
+        title_place = Place.objects.values('title_place').get(author=self.request.user)  # Добавьте .name для получения названия
+        context['title'] = title_place['title_place']
+        context['place_id'] = place_id
+        return context
+
 class CreateCategory(LoginRequiredMixin, CreateView):
     form_class = CategoryForm
     template_name = 'dishlist/dashboard/add_category.html'
@@ -248,3 +258,28 @@ class CreateCategory(LoginRequiredMixin, CreateView):
         place_id = Place.objects.values('pk').get(author=self.request.user)
         place_id = place_id['pk']
         return reverse_lazy('refactor_category', args=[place_id])
+
+
+
+
+class PlaceInfoUpdateView(UpdateView):
+    model = PlaceInfo
+    fields = ['organization_name', 'inn', 'city', 'address', 'number_of_tables', 'working_hours', 'average_check']
+    template_name = 'dishlist/dashboard/update_place_info.html'  # Замените на имя вашего шаблона
+    success_url = reverse_lazy('update_place_info')  # Замените на имя вашего URL-адреса успешного обновления
+
+    def get_object(self, queryset=None):
+        # Получаем объект PlaceInfo, который хотим обновить
+        return PlaceInfo.objects.get(place__author=self.request.user)
+
+    def get_success_url(self):
+        place_id = Place.objects.values('pk').get(author=self.request.user)
+        place_id = place_id['pk']
+        return reverse_lazy('update_place_info', args=[place_id])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Place.objects.get(pk=self.kwargs['place_id']).title_place  # Добавьте .name для получения названия
+        context['place_id'] = self.kwargs['place_id']
+        return context
+
