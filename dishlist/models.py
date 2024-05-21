@@ -2,15 +2,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
-#Плашка блюда
-# class DisheLable(models.Model):
-#     lable = models.ForeignKey('Lable', on_delete=models.PROTECT, blank=True, verbose_name="Текст плашки")
-#     active = models.BooleanField(default=False)
-#
-# class Lable(models.Model):
-#     title = models.CharField(max_length=50, db_index=True, verbose_name='Текст плашки')
-
-
 
 class Dishes(models.Model):
     title = models.CharField(max_length=50, verbose_name='Название')
