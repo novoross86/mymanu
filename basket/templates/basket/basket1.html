@@ -46,6 +46,8 @@
   </div>
 {% endblock %}
 
+
+
 {% block content %}
 <div class="container mt-5">
   <h2 class="text-center mb-4">Ваш заказ</h2>
@@ -82,13 +84,31 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Итого к оплате</h5>
-          <h3 class="text-success">{{total_price}} руб.</h3>
+          <h3 class="text-success">{{ total_price }} руб.</h3>
           <hr>
-          <button type="button" class="btn btn-primary btn-lg btn-block">Сделать заказ1</button>
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="orderButton">Сделать заказ</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var orderButton = document.getElementById('orderButton');
+
+  orderButton.addEventListener('click', function() {
+    var basketData = "";
+    {% for item in basket_items %}
+      basketData += "{{ item.quantity }} x {{ item.dishe }}\n";
+    {% endfor %}
+
+    var message = encodeURIComponent("Заказ: " + basketData + "Итого к оплате: {{ total_price }} руб.");
+    var whatsappLink = "https://wa.me/79284326297?text=" + message;
+
+    window.location.href = whatsappLink;
+  });
+});
+</script>
 
 {% endblock %}

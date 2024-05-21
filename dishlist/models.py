@@ -46,33 +46,6 @@ class Category(models.Model):
         verbose_name_plural = 'Категория'
         ordering = ['title']
 
-#плашка для места
-
-# class PlaceLabel(models.Model):
-#     title = models.CharField(max_length=50, db_index=True, blank=True, verbose_name='Текст плашки')
-#
-#     def __str__(self):
-#         return self.title
-
-# class Place(models.Model):
-#     title_place = models.CharField(max_length=150, db_index=True, verbose_name='Заведение')
-#     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='place_author', null=True,
-#                                default=None)
-#     # label = models.ForeignKey('PlaceLabel', on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Плашка")
-#     place_info = models.OneToOneField('PlaceInfo', on_delete=models.SET_NULL, null=True, blank=True)
-#
-#     def get_absolute_url(self):
-#         return reverse('dashboard_menu', kwargs={"place_id": self.pk})
-#
-#     def __str__(self):
-#         return self.title_place
-#
-#     class Mete:
-#         verbose_name = 'Заведение'
-#         verbose_name_plural = 'Заведения'
-#         ordering = ['title_place']
-
-
 class Place(models.Model):
     title_place = models.CharField(max_length=150, db_index=True, verbose_name='Заведение')
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='place_author', null=True,
@@ -114,6 +87,10 @@ class PlaceInfo(models.Model):
     def create_place_info(sender, instance, created, **kwargs):
         if created:
             PlaceInfo.objects.create(place=instance)
+
+
+    def get_adsolut_url(self):
+        return reverse('place_info', kwargs={'place_id': self.place})
 
 
 

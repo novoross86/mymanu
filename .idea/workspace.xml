@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="58395d08-7e53-4e8e-80b4-9abc8d1487c7" name="Changes" comment="delete class DishLable">
-      <change afterPath="$PROJECT_DIR$/dishlist/templates/dishlist/dashboard/update_place_info.html" afterDir="false" />
+    <list default="true" id="58395d08-7e53-4e8e-80b4-9abc8d1487c7" name="Changes" comment="add menu on all pages&#10;add model place info&#10;add page place info">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/basket/templates/basket/basket1.html" beforeDir="false" afterPath="$PROJECT_DIR$/basket/templates/basket/basket1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dishlist/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/dishlist/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dishlist/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dishlist/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dishlist/templates/dishlist/dashboard/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dishlist/templates/dishlist/dashboard/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dishlist/templates/dishlist/dashboard/update_dishes.html" beforeDir="false" afterPath="$PROJECT_DIR$/dishlist/templates/dishlist/dashboard/update_dishes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dishlist/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dishlist/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dishlist/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dishlist/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_index.html" afterDir="false" />
     </list>
@@ -64,7 +61,14 @@
       <option name="project" value="LOCAL" />
       <updated>1716275790868</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add menu on all pages&#10;add model place info&#10;add page place info">
+      <created>1716302014296</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1716302014296</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -80,6 +84,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="delete class DishLable" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete class DishLable" />
+    <MESSAGE value="add menu on all pages&#10;add model place info&#10;add page place info" />
+    <option name="LAST_COMMIT_MESSAGE" value="add menu on all pages&#10;add model place info&#10;add page place info" />
   </component>
 </project>

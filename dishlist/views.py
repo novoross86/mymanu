@@ -206,9 +206,6 @@ class CreatePlace(LoginRequiredMixin, CreateView):
         w.author =self.request.user
         return super().form_valid(form)
 
-    # def get_success_url(self):
-    #     place_id = self.kwargs['place_id']
-    #     return reverse_lazy('dashboard_menu', kwargs={'place_id': place_id})
 
 #добавление блюд для конкретного места
 class CreateDishPlace(LoginRequiredMixin, CreateView): #LoginRequiredMixin, написать первым параметром
