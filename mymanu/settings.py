@@ -139,3 +139,5 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'users.authentication.EmailAuthBackend',
 ]
+
+FORCE_SCRIPT_NAME = "/test_pro"   
