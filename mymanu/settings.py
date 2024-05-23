@@ -124,7 +124,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn")
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/test_pro/media/'
+MEDIA_URL = '/media/'
 
 
 # Default primary key field type
@@ -140,4 +140,4 @@ AUTHENTICATION_BACKENDS = [
     'users.authentication.EmailAuthBackend',
 ]
 
-FORCE_SCRIPT_NAME = "/test_pro"   
+# FORCE_SCRIPT_NAME = "/test_pro"   
