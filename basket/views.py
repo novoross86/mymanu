@@ -9,6 +9,7 @@ from .models import BasketItem
 
 def dish_list(request):
     dishes = Dishes.objects.all()
+    print(dishes)
     return render(request, 'basket/dish.html', {'dishes': dishes})
 
 
@@ -58,6 +59,7 @@ def view_basket(request):
 
 def add_to_basket(request, dish_id):
     dish = get_object_or_404(Dishes, id=dish_id)
+
     session_key = request.session.session_key
     if not session_key:
         request.session.create()
