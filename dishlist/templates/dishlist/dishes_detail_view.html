@@ -53,31 +53,13 @@
 <!-- Добавление обработчика кнопок добавить в корзину -->
 <script>
 
-<!--document.addEventListener('click', function(e) {-->
-<!--    if (e.target.classList.contains('add-to-basket')) {-->
-<!--        e.preventDefault();-->
-<!--        const button = e.target; // Сохраняем ссылку на кнопку-->
-<!--        const dishId = button.dataset.dishId;-->
-<!--        fetch(`/add_to_basket/${dishId}/`)-->
-<!--            .then(response => response.json())-->
-<!--            .then(data => {-->
-<!--                button.textContent = 'Добавлено: ' + data.quantity; // Обновляем текст кнопки-->
-<!--                // Здесь вы можете обновить количество на странице-->
-<!--            })-->
-<!--            .catch(error => {-->
-<!--                console.error('Ошибка:', error);-->
-<!--                button.textContent = 'Ошибка при добавлении'; // Текст кнопки в случае ошибки-->
-<!--            });-->
-<!--    }-->
-<!--});-->
-
 
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('add-to-basket')) {
         e.preventDefault();
         const button = e.target; // Сохраняем ссылку на кнопку
         const dishId = button.dataset.dishId;
-        fetch(`/add_to_basket/${dishId}/`)
+        fetch(`/test_pro/add_to_basket/${dishId}/`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Сетевая ошибка: ' + response.statusText);

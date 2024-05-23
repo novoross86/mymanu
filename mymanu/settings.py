@@ -140,4 +140,4 @@ AUTHENTICATION_BACKENDS = [
     'users.authentication.EmailAuthBackend',
 ]
 
-FORCE_SCRIPT_NAME = "/test_pro"   
+# FORCE_SCRIPT_NAME = "/test_pro"   
