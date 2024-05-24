@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="58395d08-7e53-4e8e-80b4-9abc8d1487c7" name="Changes" comment="add menu on all pages&#10;add model place info&#10;add page place info">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mymanu/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mymanu/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="58395d08-7e53-4e8e-80b4-9abc8d1487c7" name="Changes" comment="add menu on all pages&#10;add model place info&#10;add page place info" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
